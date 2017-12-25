@@ -16,12 +16,16 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 admin.site.site_header = 'Market analysis App'
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', include('bazar.urls'))
+    url(r'^accounts/login/$', auth_views.login, name='login'),
+    url(r'^accounts/logout/$', auth_views.logout,
+        {'next_page': '/'}, name='logout'),
+    url(r'^$', include('bazar.urls')),
+    url(r'^admin/', admin.site.urls)
 ]
 
 if settings.DEBUG:
