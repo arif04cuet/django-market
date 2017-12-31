@@ -27,10 +27,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Customs configurations
+LOGIN_REDIRECT_URL = '/'
+AUTH_PROFILE_MODULE = "accounts.Profile"
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCagFj8p4AkPpRsEkCKybI26hO0uDaKKuA'
+GEOPOSITION_MAP_OPTIONS = {
+    'minZoom': 3,
+    'maxZoom': 15,
+}
+
+GEOPOSITION_MARKER_OPTIONS = {
+    'cursor': 'move'
+}
 
 # Application definition
 
 INSTALLED_APPS = [
+    'geoposition',
+    'accounts',
     'bazar',
     'django.contrib.admin',
     'django.contrib.auth',

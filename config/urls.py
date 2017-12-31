@@ -16,17 +16,16 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
+from accounts.views import home
+from django.conf.urls.static import static
 
 admin.site.site_header = 'Market analysis App'
 
 urlpatterns = [
-    url(r'^accounts/login/$', auth_views.login, name='login'),
-    url(r'^accounts/logout/$', auth_views.logout,
-        {'next_page': '/'}, name='logout'),
-    url(r'^$', include('bazar.urls')),
+    url(r'^$', home),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^admin/', admin.site.urls)
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
