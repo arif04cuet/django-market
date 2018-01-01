@@ -40,6 +40,9 @@ GEOPOSITION_MARKER_OPTIONS = {
     'cursor': 'move'
 }
 
+# During development only
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 admin.site.site_header = 'Market analysis App'
 
 urlpatterns = [
-    url(r'^$', home),
+    url(r'^$', home, name="home"),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^admin/', admin.site.urls)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
