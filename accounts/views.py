@@ -15,6 +15,7 @@ from .forms import SignUpForm, UserForm, ProfileForm
 @login_required
 def home(request):
     # print(request.user.profile)
+    messages.success(request, 'Welcome ,%s' % request.user)  # <-
     return render(request, 'home.html', context={'user': request.user})
 
 

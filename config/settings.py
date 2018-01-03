@@ -39,13 +39,14 @@ GEOPOSITION_MAP_OPTIONS = {
 GEOPOSITION_MARKER_OPTIONS = {
     'cursor': 'move'
 }
-
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 # During development only
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'geoposition',
     'accounts',
     'bazar',
@@ -172,3 +173,4 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
+    JQUERY_URL = ''
