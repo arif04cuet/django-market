@@ -7,9 +7,12 @@ from .models import Profile
 
 class SignUpForm(UserCreationForm):
 
+    is_staff = forms.BooleanField(
+        widget=forms.HiddenInput(), required=False, initial=True)
+
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', )
+        fields = ('username', 'password1', 'password2', 'is_staff')
         labels = {
             'username': _('Mobile #'),
         }

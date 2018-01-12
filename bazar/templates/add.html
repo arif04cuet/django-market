@@ -1,0 +1,54 @@
+{% extends 'base.html' %} {% load static%}{% load bootstrap4 %} {% block content %}
+
+
+
+<p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {{ form.non_field_errors }} {% for field in form %}
+            <div class="row">
+                <div class="col-md-3">{% bootstrap_label field.label %}</div>
+                <div class="col-md-8">{% bootstrap_field field show_label=False %}</div>
+            </div>
+            {% endfor %}
+        </fieldset>
+        <fieldset>
+            <legend>Items</legend>
+            {{ product_form.management_form }} {{ product_form.non_form_errors }} {% for form in product_form %}
+            <div class="inline {{ product_form.prefix }}">
+                <div class="row">
+                    {% for field in form.visible_fields %}
+
+                    <div class="col-md-1">{% bootstrap_label field.label %}</div>
+                    <div class="col-md-2">{% bootstrap_field field show_label=False %}</div>
+
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </fieldset>
+        <br>
+        <div class="row">
+            <div class="col-md-1">
+                <input type="submit" class="btn btn-primary bordered" value="Submit" />
+            </div>
+        </div>
+    </form>
+
+    {% block bottom_js %}
+
+
+    <script src="{% static 'js/jquery.formset.js' %}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $(".inline.{{ product_form.prefix }}").formset({
+                prefix: "{{ product_form.prefix }}", // The form prefix for your django formset
+                addCssClass: "btn btn-success inline-form-add", // CSS class applied to the add link
+                deleteCssClass: "btn btn-danger bordered", // CSS class applied to the delete link
+                addText: 'Add another', // Text for the add link
+                deleteText: 'Remove', // Text for the delete link
+                formCssClass: 'inline-form' // CSS class applied to each form in a formset
+            })
+        });
+    </script> {% endblock %} {% endblock %}

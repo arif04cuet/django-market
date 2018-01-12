@@ -14,6 +14,9 @@ class Profile(models.Model):
     class Meta:
         db_table = 'user_profile'
 
+    def __str__(self):
+        return self.name if self.name else self.user.username
+
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
