@@ -1,0 +1,37 @@
+{% extends 'admin/change_form.html' %} {% block extrahead %} {{ block.super }}
+<script>
+    var $ = django.jQuery;
+    $(document).ready(function () {
+
+        $(document).on('keyup', '.field-unit_price input', function () {
+            var $unitPrice = $(this).val();
+            var $amount = $(this).parents('tr').find('.field-amount input').val()
+            var $total = $unitPrice * $amount;
+            $(this).parents('tr').find('.field-total input').val($total)
+        });
+
+        $(document).on('keyup change', '.field-amount input', function () {
+            var $unitPrice = $(this).parents('tr').find('.field-unit_price input').val();
+            var $amount = $(this).val()
+            var $total = $unitPrice * $amount;
+            $(this).parents('tr').find('.field-total input').val($total)
+        });
+
+        $('.field-total input').attr('readonly', 'readonly');
+
+        //add product link
+        /*$(".field-bazar select,.field-category select").change(function () {
+            $(this).find("option").attr('class', 'selected')
+            $selected_value = $(this).val();
+            $(this).find("option").filter(function () {
+                return $(this).val() != $selected_value;
+            }).removeAttr('class');
+        });
+        $('.add-row a').click(function () {
+            $empty_row = $('.empty-form');
+            $previous_row = $empty_row.prev().prev();
+            $value = $previous_row.find('.field-bazar select option.selected').attr('value');
+            $empty_row.find('.field-bazar select option[value=' + $value + ']').attr('selected', 'selected');
+        });*/
+    });
+</script> {% endblock%}

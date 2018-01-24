@@ -3,22 +3,14 @@ from django.forms.models import inlineformset_factory
 from django import forms
 from django.contrib.admin import widgets
 
-from .models import Entry, Product
+from .models import Entry, Product, Bazar
 
 
-class EntryForm(ModelForm):
+class ProductForm(ModelForm):
 
-    added_at = forms.SplitDateTimeField(widget=widgets.AdminSplitDateTime)
+    bazar = forms.ModelChoiceField(
+        queryset=Bazar.objects.order_by('title'), initial=2)
 
     class Meta:
-        model = Entry
-        fields = ['added_at']
-
-
-EntryProductFormset = inlineformset_factory(
-    Entry,
-    Product,
-    fields=['category', 'unit_price', 'amount', 'bazar'],
-    can_delete=True,
-    extra=1
-)
+        model = Product
+        fields = ('category', 'unit_price', 'amount', 'total', 'bazar')
