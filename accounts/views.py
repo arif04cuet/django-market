@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
-
+import requests
 from .forms import SignUpForm, UserForm, ProfileForm
 
 
@@ -64,14 +64,30 @@ def change_password(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        post_values = request.POST.copy()
+        rand_password = 'asd124asdasd6852'
+        post_values['password1'] = rand_password
+        post_values['password2'] = rand_password
+        form = SignUpForm(post_values)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('/')
+            #raw_password = form.cleaned_data.get('password1')
+            #user = authenticate(username=username, password=raw_password)
+            #login(request, user)
+            # send sms
+            ms = username
+            txt = 'Your password is : %s' % rand_password
+
+            if not ms.startswith('+88'):
+                ms = '+88%s' % ms
+
+            url = "http://123.49.3.58:8081/web_send_sms.php?ms=%s&txt=%s&username=pmoffice&password=pmoffice" % (
+                ms, txt)
+            # Response = file_get_contents("http://123.49.3.58:8081/web_send_sms.php?ms=" . $ms . "&txt=" . $txt . "&username=pmoffice&password=pmoffice")
+            r = requests.get(url)
+            print(r)
+            return redirect('/admin')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})

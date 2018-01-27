@@ -12,7 +12,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'is_staff')
+        fields = ('username', 'is_staff',)
         labels = {
             'username': _('Mobile #'),
         }
