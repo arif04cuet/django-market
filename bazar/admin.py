@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.db.models import Count, Max
-
+from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.contrib.auth.models import User
 
 from .models import Unit, Bazar, Category, Entry, Product
 from . import forms
@@ -9,7 +10,7 @@ from . import forms
 
 class ProductInline(admin.TabularInline):
     model = Product
-    #form = forms.ProductForm
+    # form = forms.ProductForm
     fields = ('category', 'unit_price', 'amount', 'total', 'bazar')
 
     def get_extra(self, request, obj=None, **kwargs):
@@ -56,6 +57,25 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'bazar',)
 
 
+class UserAdmin(DjangoUserAdmin):
+
+     # Static overriding
+    fieldsets = (
+        (None, {'fields': ('username', 'password')}),
+        (('Personal info'), {
+            'fields': ('first_name', 'last_name', 'email')}),
+        (('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+
+    def get_queryset(self, request):
+        qs = super(UserAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(pk=request.user.pk)
+
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
 admin.site.register(Unit)
 admin.site.register(Bazar)
 admin.site.register(Category)
