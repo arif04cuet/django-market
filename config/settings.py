@@ -28,7 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Customs configurations
+BOOTSTRAP_ADMIN_SIDEBAR_MENU = False
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/admin'
 AUTH_PROFILE_MODULE = "accounts.Profile"
 GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCagFj8p4AkPpRsEkCKybI26hO0uDaKKuA'
 GEOPOSITION_MAP_OPTIONS = {
@@ -46,12 +48,14 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Application definition
 
 INSTALLED_APPS = [
+    'flat_responsive',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
     'django_extensions',
     'geoposition',
     'bootstrap4',

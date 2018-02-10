@@ -60,12 +60,18 @@ class ProductAdmin(admin.ModelAdmin):
 class UserAdmin(DjangoUserAdmin):
 
      # Static overriding
-    fieldsets = (
+    add_fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (('Personal info'), {
             'fields': ('first_name', 'last_name', 'email')}),
         (('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
+    readonly_fields = ('username',)
+
+    def get_fieldsets(self, request, obj=None):
+        if not request.user.is_superuser:
+            return self.add_fieldsets
+        return super(UserAdmin, self).get_fieldsets(request, obj)
 
     def get_queryset(self, request):
         qs = super(UserAdmin, self).get_queryset(request)

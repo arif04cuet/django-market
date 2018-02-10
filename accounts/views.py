@@ -7,17 +7,16 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 import requests
 from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.shortcuts import render_to_response
 from .forms import SignUpForm, UserForm, ProfileForm
 
 
 # Create your views here.
 
 
-@login_required
 def home(request):
-    # print(request.user.profile)
-    messages.success(request, 'Welcome ,%s' % request.user.profile)  # <-
-    return render(request, 'home.html', context={'user': request.user})
+    return redirect('/admin')
 
 
 @login_required
@@ -74,17 +73,53 @@ def signup(request):
         if not ms.startswith('+88'):
             ms = '+88%s' % ms
 
-        url = "http://123.49.3.58:8081/web_send_sms.php?ms=%s&txt=%s&username=pmoffice&password=pmoffice" % (
-            ms, txt)
-        r = requests.get(url)
-
         # save user
+        try:
+            user = User.objects.create_user(
+                username=username, password=rand_password, is_staff=True)
+            # send sms
+            url = "http://123.49.3.58:8081/web_send_sms.php?ms=%s&txt=%s&username=pmoffice&password=pmoffice" % (
+                ms, txt)
+            r = requests.get(url)
+            messages.success(
+                request, 'Signup Success! Pls check your mobile sms to get password')
 
-        user = User.objects.create_user(
-            username=username, password=rand_password, is_staff=True)
+        except IntegrityError as e:
+            #message = 'Opps! %s' % str(e)
+            messages.error(request, 'Username already exist!')
 
-        messages.success(
-            request, 'Signup Success! Pls check your mobile sms to get password')
         return redirect('/admin')
 
-    return render(request, 'registration/signup.html')
+    # return render(request, 'registration/signup.html')
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        rand_password = User.objects.make_random_password(length=4)
+        ms = username
+        txt = 'Your username/password is : %s \n %s' % (
+            username, rand_password)
+
+        if not ms.startswith('+88'):
+            ms = '+88%s' % ms
+
+        # save user
+        try:
+            user = User.objects.get(username__exact=username)
+            user.set_password(rand_password)
+            user.save()
+            # send sms
+            url = "http://123.49.3.58:8081/web_send_sms.php?ms=%s&txt=%s&username=pmoffice&password=pmoffice" % (
+                ms, txt)
+            r = requests.get(url)
+            messages.success(
+                request, 'Pls check your mobile sms to get password')
+
+        except User.DoesNotExist:
+            #message = 'Opps! %s' % str(e)
+            messages.error(request, 'Username does not exist!')
+
+        return redirect('/admin')
+
+    # return render(request, 'registration/signup.html')

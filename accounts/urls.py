@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'logout', auth_views.logout,
         {'next_page': '/'}, name='logout'),
     url(r'registration', views.signup, name='signup'),
+    url(r'forgot-password', views.forgot_password, name='forgot-password'),
     url(r'profile', views.update_profile, name='profile'),
     url(r'password/change', views.change_password, name="password_change"),
     url(r'password_change_done',

@@ -10,54 +10,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> {% comment %}
     <script src="{% static 'jquery.min.js' %}"></script> {% endcomment %}
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
-        crossorigin="anonymous">
-
-    <link rel="stylesheet" type="text/css" href="{% static '/media/admin/css/forms.css' %}" />
-    <link rel=" stylesheet " type="text/css " href="/media/admin/css/base.css " />
-    <link rel="stylesheet " type="text/css " href="/media/admin/css/global.css " />
-    <link rel="stylesheet " type="text/css " href="/media/admin/css/widgets.css " />
-
-    <script type="text/javascript " src="/admin/jsi18n/ "></script>
-    <script type="text/javascript " src="/media/admin/js/core.js "></script>
-    <script type="text/javascript " src="/media/admin/js/admin/RelatedObjectLookups.js "></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.2/jquery.min.js"></script>
 
 
 </head>
 
 <body>
     <div class="container ">
-        <nav class="navbar navbar-expand-md navbar-light bg-light ">
-            <a class="navbar-brand " href="/ ">Market Analysis App</a>
-            <button class="navbar-toggler hidden-lg-up " type="button " data-toggle="collapse " data-target="#collapsibleNavId
-        " aria-controls="collapsibleNavId " aria-expanded="false " aria-label="Toggle navigation ">
-                <span class="navbar-toggler-icon "></span>
-            </button>
-
-            <div class="collapse navbar-collapse " id="collapsibleNavId ">
-                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
-
-                    {% if user.is_authenticated %}
-                    <li class="nav-item ">
-                        <a href="{% url 'profile'%} " class="nav-link ">Profile</a>
-                    </li>
-                    <li class="nav-item ">
-                        <a href="{% url 'password_change'%} " class="nav-link ">Change Passwords</a>
-                    </li>
-
-                    {% endif %}
-
-                    <li class="nav-item ">
-                        {% if user.is_authenticated %}
-                        <a class="nav-link " href="{% url 'logout'%} ">Logout</a>
-                        {% else%}
-                        <a class="nav-link " href="{% url 'login'%} ">Login</a>
-                        {% endif%}
-
-                    </li>
-                </ul>
-            </div>
-        </nav>
         {% if messages %} {% for message in messages %}
         <div class="alert alert-{{ message.tags }} ">{{ message }}</div>
         {% endfor %} {% endif %} {% block content%} {% endblock content%}
@@ -65,12 +25,7 @@
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js " integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN "
-        crossorigin="anonymous "></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q "
-        crossorigin="anonymous "></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js " integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4 "
-        crossorigin="anonymous "></script> {% block bottom_js %} {% endblock bottom_js %}
+   
 </body>
 
 </html>

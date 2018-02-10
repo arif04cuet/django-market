@@ -1,0 +1,42 @@
+    <table>
+    {% for entry in data %}
+    <tr>
+        <td>{{entry.year}}</td>
+        <td>{{entry.month}}</td>
+        <td>{{entry.total}}</td>
+    </tr>
+    {% endfor%}
+</table>
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+<div id="chart" style="height: 250px;"></div>
+
+<style>
+
+    #chart{
+        height:400px;
+      }
+
+
+</style>
+<script>
+    Morris.Bar({
+        element: 'chart',
+        data: [
+          { y: '2006', a: 100},
+          { y: '2007', a: 75},
+          { y: '2008', a: 50},
+          { y: '2009', a: 75},
+          { y: '2010', a: 50},
+          { y: '2011', a: 75},
+        ],
+        xkey: 'y',
+        ykeys: ['a'],
+        labels: ['Series A']
+      });
+</script>
