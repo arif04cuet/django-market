@@ -1,0 +1,88 @@
+{% extends "admin/base_site.html" %}
+{% load bazar_tags%}
+
+{% block footer %}
+
+{% endblock footer %}
+
+{% block content %}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<div id="container">
+
+  <div class="row">
+    <div class="col-md-12">{{request.user.id}}</div>
+  </div>
+    
+  <div class="row">
+      <div class="col-md-6">
+
+          {% show_last_ten user 10%}
+      </div>
+      <div class="col-md-6">
+          <div class="serach">
+
+             <form>
+              <h4>Get bazar wise product price</h4>
+              From <input type="text" name="date_from" id="date_from" class="col-md-3" required> To
+              <input type="text" name="date_to" id="date_to" class="col-md-3" required>
+              Product
+              {% product_list %}
+              <button class="btn btn-primary" id="find" type="submit">Find</button>
+            </form>
+              <span class="loader">Loading..</span>
+              <div class="results">
+                
+              </div>
+          
+            </div>
+      </div>
+  </div>
+  
+  <br><br>
+  <div class="row">
+      <div class="col-md-12"> {% monthly_chart user 6 %}</div>
+    </div>
+</div>
+
+<script>
+    $("#date_from,#date_to").datepicker({ dateFormat: 'yy-mm-dd' });
+    $('.loader').hide();
+    $("#find").click(function (event) {
+      
+      $('.loader').show();
+
+      var product = $('#product_list').val();
+      var product_name = $('#product_list option:selected').text();
+
+      $.ajax({
+        url: '/bazar/ajax/',
+        data: {
+          'product_id': product,
+          'user_id':{{user.id}},
+          'date_from':$('#date_from').val(),
+          'date_to':$('#date_to').val(),
+        },
+        dataType: 'json',
+        success: function (response) {
+         $('.loader').hide();
+         //
+         html = '<br><p>Price of <b>'+product_name+'</b> during <b>'+$('#date_from').val()+'</b> and <b>'+$('#date_to').val()+'</b></p><hr/>';
+         
+         li = ''; 
+         $.each(response.data,function(i,v){
+            li +='<li>'+v.title+' -> '+v.price+'</li>'
+         });
+         html +='<ol>'+li+'</ol>';
+
+         console.log(html);
+         $(".results").empty().html(html);
+        }
+      });
+
+      return false;
+    });
+  </script>
+
+{% endblock %}

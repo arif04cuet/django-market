@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'django_extensions',
+    'smart_selects',
+    'graphos',
     'geoposition',
     'bootstrap4',
     'accounts',
@@ -177,4 +179,4 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         'INTERCEPT_REDIRECTS': False,
     }
-    JQUERY_URL = ''
+    JQUERY_URL = False

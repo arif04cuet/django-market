@@ -2,8 +2,11 @@ from django.contrib import admin
 from django.db.models import Count, Max
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.models import User
+from django.template.response import TemplateResponse
+from django.conf.urls import url
 
 from .models import Unit, Bazar, Category, Entry, Product
+from bazar import models
 from . import forms
 # Register your models here.
 
@@ -79,6 +82,23 @@ class UserAdmin(DjangoUserAdmin):
             return qs
         return qs.filter(pk=request.user.pk)
 
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            url('report/', self.report),
+        ]
+        return my_urls + urls
+
+    def report(self, request):
+        # ...
+        context = dict(
+            # Include common variables for rendering the admin template.
+            self.admin_site.each_context(request),
+            # Anything else you want in the context...
+            key=123,
+        )
+        return TemplateResponse(request, "admin/report.html", context)
+
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
@@ -87,3 +107,7 @@ admin.site.register(Bazar)
 admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Entry, EntryAdmin)
+
+admin.site.register(models.Division)
+admin.site.register(models.District)
+admin.site.register(models.Upazila)

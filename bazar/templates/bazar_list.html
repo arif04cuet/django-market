@@ -1,0 +1,7 @@
+
+
+<select name="bazar_list" id="bazar_list">
+    {% for entry in entries%}
+        <option value="{{ entry.id }}">{{entry.title}}</option>
+    {% endfor%}
+</select>

@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^$', home, name="home"),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^bazar/', include('bazar.urls')),
-    url(r'^admin/', admin.site.urls)
+    url(r'^admin/', admin.site.urls),
+    url(r'^chaining/', include('smart_selects.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
